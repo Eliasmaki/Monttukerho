@@ -1,0 +1,90 @@
+*{
+	margin:0;
+	padding:0;
+	font-family: "Roboto", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.valikko{
+	min-height: 100vh;
+	width: 100%;
+	background-color: #c9fffb;
+	background-size: cover;
+	background-position: center;
+}
+nav{
+	display: flex;
+	padding: 2% 2%;
+	justify-content: space-between;
+	align-items: center;
+}
+nav a img{
+	width: 150px;
+}
+.valikon_linkit{
+	flex: 1;
+	text-align: center;
+}
+.valikon_linkit ul li{
+	list-style: none;
+	display: inline-block;
+	padding: 0px 20px;
+}
+.valikon_linkit ul li a{
+	text-decoration: none;
+	color: #1fbcff;
+	font-size: 25px;
+}
+.valikon_linkit ul li::after{
+	content: "";
+	height: 1px;
+	display: block;
+	width: 0%;
+	background: #ff743d;
+	margin: auto;
+	transition: 0.5s;
+	
+}
+.valikon_linkit ul li:hover::after{
+	width: 100%;
+	height: 2px;
+
+}
+
+.tekstit{
+	text-align: center;
+	color: #1f6dff;
+}
+.tekstit p{
+	font-size: 20px;
+}
+
+.tekstit h1{
+	font-size: 50px;
+}
+
+
+/* Luottotietorekisteri*/
+
+.Rekisteri{
+	left: 10px;
+}
+.Tekstikentta{
+	box-sizing: border-box;
+	resize: none;
+	width: 100px;
+	height: 10px;
+	padding: 2px;
+	border-radius: 3px;
+	color: #1fbcff;
+}
+
+
+/* Parkitukset*/
+
+.parkitustekstit{
+	text-align: center;
+	color: #1f6dff;
+	font-size: 20px;
+}
