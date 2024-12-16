@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pilaskin</title>
+</head>
+<body>
+    <div class="alku">
+        <a>Takas</a>
+        <H1>Pi simulation</H1>
+        <h2 id="collisionscreen">Collisions: 0</h2><h2 id="piValue">Pi: 0</h2>
+        <label for="mass"><h2>Select mass:</h2></label>
+        <select name="mass" id="mass">
+            <option value="1">1 KG</option>
+            <option value="100">100 KG</option>
+            <option selected value="10000">10000 KG</option>
+            <option value="1000000">1000000 KG</option>
+        </select>
+    </br>
+    </div>
+    <div class="main">
+        <canvas id="simulaatiocanvas" class="simulaatiocanvas" width="800px" height="400px"></canvas>
+    </div>
+
+<style>
+    .simulaatiocanvas{
+        background-color: gray;
+        border-radius: 20px;
+        border-width: 2px;
+        border-color: black;
+        border-style: solid;
+    }
+</style>
+<script>
+    const canvas = document.getElementById("simulaatiocanvas");
+    massSelect = document.getElementById("mass");
+    massValue = massSelect.value;
+    console.log(massValue);
+    var m1 = 1;
+    var m2 = 10000;
+    var v1 = 0;
+    var v2 = 15;
+    var x1 = 200;
+    var x2 = 500;
+    var v1a;
+    var v2a;
+    var collisions = 0;
+    var collides = true;
+    const collisionscreen = document.getElementById("collisionscreen");
+    const piValueScreen = document.getElementById("piValue");
+    var piValue = 0;
+    
+    draw();
+    simulaatio();
+
+    function draw(){
+        const palikat = canvas.getContext("2d");
+        const palikkatekstit = canvas.getContext("2d");
+        palikat.fillStyle = "black";
+        palikat.clearRect(0,0,canvas.width,canvas.height);
+        palikat.fillRect(x1,300,100,100);
+        palikat.fillRect(x2,200,200,200);
+        palikkatekstit.fillStyle = "White";
+        palikkatekstit.fillText("1KG" ,x1 + 10 ,300,100);
+        palikkatekstit.fillText(m2+"KG" ,x2 + 10 ,200,100);
+        palikkatekstit.font = "30px Arial";
+        
+    }
+
+
+
+    function simulaatio(){
+        x2 = x2 - (0.1 * v2);
+        x1 = x1 - (0.1 * v1);
+        massValue = document.getElementById("mass").value;
+
+        if (x2 < x1 + 100 && collides){
+            collision();
+            collides = false;
+            console.log("v1: " + v1);
+            console.log("v2: " + v2);
+            collisions++;
+            piValue = collisions/Math.sqrt(m2);
+            collisionscreen.innerHTML = ("Collisions: " + collisions);
+            piValueScreen.innerHTML = ("Pi: "+piValue);
+        }
+        if (x1 < 0) {
+            v1 = v1 * -1;
+            collides = true;
+            collisions++;
+            piValue = collisions/Math.sqrt(m2);
+            collisionscreen.innerHTML = ("Collisions: " + collisions)
+            piValueScreen.innerHTML = ("Pi: "+piValue);
+        }
+        if (m2 != massValue){
+            if (massValue == "1") {
+                m2 = 1;
+                reset();
+            }
+            if (massValue == "100") {
+                m2 = 100;
+                reset();
+            }
+            if (massValue == "10000") {
+                m2 = 10000;
+                reset();
+            }
+            if (massValue == "1000000") {
+                m2 = 1000000;
+                reset();
+            }
+        }
+
+        inputListener();
+        draw();
+        window.requestAnimationFrame(simulaatio);
+    }
+
+    function collision(){
+        v1a = ((m1 - m2) * v1 + 2 * m2 * v2) / (m1 + m2);
+        v2a = ((m2 - m1) * v2 + 2 * m1 * v1) / (m1 + m2);
+        v1 = v1a
+        v2 = v2a
+    }
+
+    function inputListener(){
+        document.onkeydown = function(e){
+            console.log("keydown");
+            if (e.key == "w"){
+                //up
+                moreMass();
+            }
+            if (e.key == "s"){
+                //down
+                lessMass();
+                console.log("key s pressed")
+            }
+        }
+    }
+
+    function moreMass(){
+        if (m2 < 1000000) {
+            m2 = m2*100
+            document.getElementById("mass").value = document.getElementById("mass").value*100;
+            massValue = document.getElementById("mass").value;
+            m2 = massValue;
+            reset();
+        }
+    }
+
+    function lessMass(){
+        if (m2 > 1){
+            m2 = m2/100
+            document.getElementById("mass").value = document.getElementById("mass").value/100;
+            massValue = document.getElementById("mass").value;
+            m2 = massValue;
+            reset();
+        }
+    }
+
+    function reset(){
+        x1 = 200;
+        x2 = 500;
+        v1 = 0;
+        v2 = 15;
+        collides = true;
+        collisions = 0;
+        collisionscreen.innerHTML = "Collisions: 0"
+    }
+</script>
+</body>
